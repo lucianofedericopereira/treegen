@@ -1,8 +1,10 @@
+<img src="assets/treegen.png" alt="Treegen Logo">
+
 # 🌳 treegen — File Tree README Action
 
 [![CI](https://github.com/lucianofedericopereira/treegen/actions/workflows/ci.yml/badge.svg)](https://github.com/lucianofedericopereira/treegen/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
+[![License: MIT](assets/license.svg)](LICENSE)
+[![Python](assets/python.svg)](pyproject.toml)
 
 Drop a `[[files]]` marker into any Markdown file and let this GitHub Action
 replace it with a directory tree. Choose the look:
