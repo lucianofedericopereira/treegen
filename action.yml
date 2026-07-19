@@ -1,7 +1,5 @@
 name: "treegen — File Tree for README"
-description: >-
-  Inject directory trees into your README as ASCII, a themeable SVG with folder
-  icons, or a GitHub-native collapsible <details> tree — via simple markers.
+description:  "Inject a directory tree into your README — ASCII, themeable SVG with folder icons, or collapsible."
 author: "Luciano Federico Pereira"
 
 branding:
