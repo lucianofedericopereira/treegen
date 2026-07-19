@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="683" height="248" viewBox="0 0 683 248" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" role="img" aria-label="Purple tree">
+<style>
+  .bg { fill: #ffffff; stroke: #d1d9e0; }
+  .name-dir { fill: #8250df; font-weight: 600; }
+  .name-file { fill: #1f2328; }
+  .comment { fill: #6d6280; }
+  .folder { fill: #c297ff; }
+  .file { fill: #eaeef2; stroke: #afb8c1; stroke-width: 1; }
+  .file-fold { fill: none; stroke: #afb8c1; stroke-width: 1; }
+  .guide { stroke: #c3aee0; stroke-width: 1; }
+  .dot { fill: #c3aee0; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #0d1117; stroke: #30363d; }
+    .name-dir { fill: #b083f0; }
+    .name-file { fill: #e6edf3; }
+    .comment { fill: #9c93ad; }
+    .folder { fill: #a371f7; }
+    .file { fill: #21262d; stroke: #484f58; }
+    .file-fold { stroke: #484f58; }
+    .guide { stroke: #63577a; }
+    .dot { fill: #63577a; }
+  }
+</style>
+<line class="guide" x1="27.0" y1="14" x2="27.0" y2="36"/>
+<line class="guide" x1="27.0" y1="25.0" x2="38.0" y2="25.0"/>
+<line class="guide" x1="27.0" y1="36" x2="27.0" y2="58"/>
+<line class="guide" x1="49.0" y1="36" x2="49.0" y2="58"/>
+<line class="guide" x1="49.0" y1="47.0" x2="60.0" y2="47.0"/>
+<line class="guide" x1="27.0" y1="58" x2="27.0" y2="80"/>
+<line class="guide" x1="49.0" y1="58" x2="49.0" y2="80"/>
+<line class="guide" x1="49.0" y1="69.0" x2="60.0" y2="69.0"/>
+<line class="guide" x1="27.0" y1="80" x2="27.0" y2="102"/>
+<line class="guide" x1="49.0" y1="80" x2="49.0" y2="102"/>
+<line class="guide" x1="49.0" y1="91.0" x2="60.0" y2="91.0"/>
+<line class="guide" x1="27.0" y1="102" x2="27.0" y2="124"/>
+<path class="guide" fill="none" d="M49.0 102 V107.0 Q49.0 113.0 55.0 113.0 H60.0"/>
+<line class="guide" x1="27.0" y1="124" x2="27.0" y2="146"/>
+<line class="guide" x1="27.0" y1="135.0" x2="38.0" y2="135.0"/>
+<path class="guide" fill="none" d="M27.0 146 V151.0 Q27.0 157.0 33.0 157.0 H38.0"/>
+<line class="guide" x1="49.0" y1="168" x2="49.0" y2="190"/>
+<line class="guide" x1="49.0" y1="179.0" x2="60.0" y2="179.0"/>
+<line class="guide" x1="49.0" y1="190" x2="49.0" y2="212"/>
+<line class="guide" x1="49.0" y1="201.0" x2="60.0" y2="201.0"/>
+<path class="guide" fill="none" d="M49.0 212 V217.0 Q49.0 223.0 55.0 223.0 H60.0"/>
+<circle class="dot" cx="27.0" cy="14" r="2"/>
+<path class="folder" d="M39 21.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<path class="folder" d="M61 43.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<path class="folder" d="M61 65.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<path class="folder" d="M61 87.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<path class="folder" d="M61 109.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<path class="folder" d="M39 131.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<path class="folder" d="M39 153.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<path class="folder" d="M61 175.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<path class="folder" d="M61 197.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<path class="folder" d="M61 219.0h4.5l1.4 1.6h8.1v7.8h-14z"/>
+<text y="25.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="62.0">brand-identity</tspan><tspan class="comment" x="215.2">Core visual brand elements</tspan></text>
+<text y="47.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="84.0">banners</tspan><tspan class="comment" x="215.2">Social media headers and banners</tspan></text>
+<text y="69.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="84.0">guidelines</tspan><tspan class="comment" x="215.2">Style guides, color codes, and usage manuals</tspan></text>
+<text y="91.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="84.0">logos</tspan><tspan class="comment" x="215.2">Official logos and icons (SVG, PNG)</tspan></text>
+<text y="113.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="84.0">typography</tspan><tspan class="comment" x="215.2">Official brand fonts</tspan></text>
+<text y="135.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="62.0">design-resources</tspan><tspan class="comment" x="215.2">UI kits, components, and design source files (Figma, etc.)</tspan></text>
+<text y="157.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="62.0">media-center</tspan><tspan class="comment" x="215.2">Public relations and media archive</tspan></text>
+<text y="179.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="84.0">clippings</tspan><tspan class="comment" x="215.2">External news coverage, video clips, and press mentions</tspan></text>
+<text y="201.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="84.0">press-kit</tspan><tspan class="comment" x="215.2">Corporate backgrounder, management bios, and fact sheets</tspan></text>
+<text y="223.0" dominant-baseline="central" font-size="13"><tspan class="name-dir" x="84.0">press-releases</tspan><tspan class="comment" x="215.2">Historical archive of official press releases</tspan></text>
+</svg>

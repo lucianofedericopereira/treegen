@@ -1,0 +1,191 @@
+name: "treegen — File Tree for README"
+description: >-
+  Inject directory trees into your README as ASCII, a themeable SVG with folder
+  icons, or a GitHub-native collapsible <details> tree — via simple markers.
+author: "Luciano Federico Pereira"
+
+branding:
+  icon: "folder"
+  color: "blue"
+
+inputs:
+  readme:
+    description: "Markdown file(s) to update. Comma/newline separated, globs allowed."
+    required: false
+    default: "README.md"
+  directory:
+    description: "Default directory to scan (per-marker `dir=` attribute overrides this)."
+    required: false
+    default: "."
+  style:
+    description: "Default render style: ascii | svg | collapsible."
+    required: false
+    default: "ascii"
+  max-depth:
+    description: "Maximum tree depth (0 = unlimited)."
+    required: false
+    default: "0"
+  dirs-only:
+    description: "Only include directories."
+    required: false
+    default: "false"
+  exclude:
+    description: "Extra ignore patterns (comma/newline separated, .gitignore syntax)."
+    required: false
+    default: ""
+  use-gitignore:
+    description: "Respect the repository's root .gitignore."
+    required: false
+    default: "true"
+  show-root:
+    description: "Include the scanned root directory itself in the tree."
+    required: false
+    default: "false"
+  descriptions:
+    description: "Path to a JSON file mapping paths to descriptions (comments)."
+    required: false
+    default: ""
+  svg-output:
+    description: "Where SVG assets are written (relative to the repo root)."
+    required: false
+    default: "assets/filetree.svg"
+  color:
+    description: "SVG folder colour: github (default, matches GitHub) | blue | green | red | orange | yellow | purple | pink | gray."
+    required: false
+    default: "github"
+  background:
+    description: "SVG backdrop: auto (framed, default) | transparent | a CSS colour."
+    required: false
+    default: "auto"
+  title:
+    description: "Label used for <details> summaries and SVG alt text."
+    required: false
+    default: "Project structure"
+  collapse:
+    description: "Wrap each rendered block in a single top-level <details>."
+    required: false
+    default: "false"
+  open:
+    description: "Render collapsible elements expanded (open) by default."
+    required: false
+    default: "true"
+  placeholder:
+    description: "Placeholder token name. Default 'files' -> [[files]]."
+    required: false
+    default: "files"
+  format:
+    description: "Output flavour: auto | markdown | html (auto picks html for .html files)."
+    required: false
+    default: "auto"
+  expand-placeholders:
+    description: "Expand [[…]] tokens. Set false for HTML pages that document the syntax."
+    required: false
+    default: "true"
+  check:
+    description: "Do not write; fail the job if any file is out of date."
+    required: false
+    default: "false"
+  python-version:
+    description: "Python version used to run the tool."
+    required: false
+    default: "3.11"
+  commit:
+    description: "Commit and push the changes back to the branch."
+    required: false
+    default: "true"
+  commit-message:
+    description: "Commit message used when `commit` is true."
+    required: false
+    default: "docs: update file tree [skip ci]"
+  commit-user-name:
+    description: "Git user.name for the commit."
+    required: false
+    default: "github-actions[bot]"
+  commit-user-email:
+    description: "Git user.email for the commit."
+    required: false
+    default: "github-actions[bot]@users.noreply.github.com"
+
+outputs:
+  changed:
+    description: "'true' if any file or asset was updated."
+    value: ${{ steps.treegen.outputs.changed }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Generate trees
+      id: treegen
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      env:
+        ACTION_PATH: ${{ github.action_path }}
+        INPUT_README: ${{ inputs.readme }}
+        INPUT_DIRECTORY: ${{ inputs.directory }}
+        INPUT_STYLE: ${{ inputs.style }}
+        INPUT_MAX_DEPTH: ${{ inputs.max-depth }}
+        INPUT_DIRS_ONLY: ${{ inputs.dirs-only }}
+        INPUT_EXCLUDE: ${{ inputs.exclude }}
+        INPUT_USE_GITIGNORE: ${{ inputs.use-gitignore }}
+        INPUT_SHOW_ROOT: ${{ inputs.show-root }}
+        INPUT_DESCRIPTIONS: ${{ inputs.descriptions }}
+        INPUT_SVG_OUTPUT: ${{ inputs.svg-output }}
+        INPUT_COLOR: ${{ inputs.color }}
+        INPUT_BACKGROUND: ${{ inputs.background }}
+        INPUT_TITLE: ${{ inputs.title }}
+        INPUT_COLLAPSE: ${{ inputs.collapse }}
+        INPUT_OPEN: ${{ inputs.open }}
+        INPUT_PLACEHOLDER: ${{ inputs.placeholder }}
+        INPUT_FORMAT: ${{ inputs.format }}
+        INPUT_EXPAND_PLACEHOLDERS: ${{ inputs.expand-placeholders }}
+        INPUT_CHECK: ${{ inputs.check }}
+      run: |
+        set -euo pipefail
+        args=(
+          --base "."
+          --readme "$INPUT_README"
+          --directory "$INPUT_DIRECTORY"
+          --style "$INPUT_STYLE"
+          --max-depth "$INPUT_MAX_DEPTH"
+          --svg-output "$INPUT_SVG_OUTPUT"
+          --color "$INPUT_COLOR"
+          --background "$INPUT_BACKGROUND"
+          --title "$INPUT_TITLE"
+          --placeholder "$INPUT_PLACEHOLDER"
+          --format "$INPUT_FORMAT"
+        )
+        [ -n "$INPUT_EXCLUDE" ] && args+=(--exclude "$INPUT_EXCLUDE")
+        [ -n "$INPUT_DESCRIPTIONS" ] && args+=(--descriptions "$INPUT_DESCRIPTIONS")
+        [ "$INPUT_DIRS_ONLY" = "true" ] && args+=(--dirs-only)
+        [ "$INPUT_USE_GITIGNORE" = "false" ] && args+=(--no-gitignore)
+        [ "$INPUT_SHOW_ROOT" = "true" ] && args+=(--show-root)
+        [ "$INPUT_COLLAPSE" = "true" ] && args+=(--collapse)
+        [ "$INPUT_OPEN" = "false" ] && args+=(--closed)
+        [ "$INPUT_EXPAND_PLACEHOLDERS" = "false" ] && args+=(--no-placeholder)
+        [ "$INPUT_CHECK" = "true" ] && args+=(--check)
+        PYTHONPATH="$ACTION_PATH/src" python -m treegen "${args[@]}"
+
+    - name: Commit changes
+      if: ${{ inputs.commit == 'true' && inputs.check != 'true' && steps.treegen.outputs.changed == 'true' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      env:
+        COMMIT_MESSAGE: ${{ inputs.commit-message }}
+        COMMIT_USER_NAME: ${{ inputs.commit-user-name }}
+        COMMIT_USER_EMAIL: ${{ inputs.commit-user-email }}
+      run: |
+        set -euo pipefail
+        git config user.name "$COMMIT_USER_NAME"
+        git config user.email "$COMMIT_USER_EMAIL"
+        git add -A
+        if git diff --cached --quiet; then
+          echo "treegen: nothing to commit"
+          exit 0
+        fi
+        git commit -m "$COMMIT_MESSAGE"
+        git push

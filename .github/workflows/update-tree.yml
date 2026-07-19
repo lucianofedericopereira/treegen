@@ -1,0 +1,41 @@
+# Example: keep the README and the landing page in sync automatically.
+#
+# Consumers of this action would replace `uses: ./` with
+# `uses: lucianofedericopereira/treegen@v1`. This repo dogfoods the local action.
+name: Update file tree
+
+on:
+  push:
+    branches: [main]
+    # Avoid an infinite loop: the action's own commit uses "[skip ci]", but you
+    # can also scope the trigger to paths that affect the tree.
+  workflow_dispatch:
+
+permissions:
+  contents: write # required so the action can push the updated README/SVG
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1) Markdown README (default: [[files]] placeholder + markers).
+      - name: Update README trees
+        uses: ./
+        with:
+          readme: "README.md"
+          commit: "false"
+
+      # 2) HTML landing page (styled HTML output; only explicit markers).
+      #    This step's commit picks up both files' changes.
+      - name: Update landing page + docs trees
+        uses: ./
+        with:
+          readme: |
+            index.html
+            docs.html
+          format: "html"
+          expand-placeholders: "false"
+          commit: "true"
+          commit-message: "docs: refresh file trees [skip ci]"

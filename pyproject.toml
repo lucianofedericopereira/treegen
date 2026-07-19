@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "treegen"
+version = "1.0.0"
+description = "Inject directory trees (ASCII, themeable SVG, or collapsible) into your README via markers."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Luciano Federico Pereira" }]
+keywords = ["readme", "tree", "directory", "github-action", "documentation", "svg"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Documentation",
+]
+dependencies = []  # Standard library only — nothing to install at runtime.
+
+[project.urls]
+Homepage = "https://github.com/lucianofedericopereira/treegen"
+Issues = "https://github.com/lucianofedericopereira/treegen/issues"
+
+[project.scripts]
+treegen = "treegen.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unreachable = true
+files = ["src", "tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["src"]

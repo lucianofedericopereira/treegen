@@ -1,0 +1,12 @@
+{
+  "brand-identity": "Core visual brand elements",
+  "brand-identity/banners": "Social media headers and banners",
+  "brand-identity/guidelines": "Style guides, color codes, and usage manuals",
+  "brand-identity/logos": "Official logos and icons (SVG, PNG)",
+  "brand-identity/typography": "Official brand fonts",
+  "design-resources": "UI kits, components, and design source files (Figma, etc.)",
+  "media-center": "Public relations and media archive",
+  "media-center/clippings": "External news coverage, video clips, and press mentions",
+  "media-center/press-kit": "Corporate backgrounder, management bios, and fact sheets",
+  "media-center/press-releases": "Historical archive of official press releases"
+}

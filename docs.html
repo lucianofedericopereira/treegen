@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>treegen — Documentation</title>
+<meta name="description" content="treegen documentation: markers, options, styles, SVG colours, HTML output, CI, and Marketplace publishing." />
+<link rel="stylesheet" href="assets/site.css" />
+</head>
+<body class="doc">
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="logo">🌳</span> treegen</a>
+    <span class="spacer"></span>
+    <a class="link" href="index.html">Home</a>
+    <a class="link" href="#quick-start">Quick start</a>
+    <a class="link" href="#markers">Markers</a>
+    <a class="link" href="#options">Options</a>
+    <a class="link" href="#colors">Colours</a>
+    <a class="link" href="https://github.com/lucianofedericopereira/treegen">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Documentation</div>
+    <h1>Docs</h1>
+    <p class="tagline">
+      Everything to drop <strong>treegen</strong> into a repo — markers, options,
+      the three styles, SVG colours, HTML output, and publishing.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="#quick-start">Get started</a>
+      <a class="btn ghost" href="index.html">← Back home</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== QUICK START ===================== -->
+<section id="quick-start">
+  <div class="wrap">
+    <div class="eyebrow">Two steps</div>
+    <h2>Quick start</h2>
+    <p class="section-lead">1 — Drop a placeholder anywhere in your <code class="inline">README.md</code>:</p>
+<pre>## Project structure
+
+[[files]]</pre>
+    <p class="section-lead" style="margin-top:20px">2 — Add a workflow at <code class="inline">.github/workflows/update-tree.yml</code>:</p>
+<pre>name: Update file tree
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lucianofedericopereira/treegen@v1
+        with:
+          style: ascii    # ascii | svg | collapsible</pre>
+    <div class="callout">
+      Prefer no placeholder? Write the managed markers yourself and treegen will
+      keep the region between them in sync:
+<pre style="margin-top:10px;background:transparent;border:0;padding:0">&lt;!-- filetree:start dir="src" style="svg" --&gt;
+&lt;!-- filetree:end --&gt;</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MARKERS ===================== -->
+<section id="markers">
+  <div class="wrap">
+    <div class="eyebrow">Authoring</div>
+    <h2>Markers &amp; placeholders</h2>
+    <p class="section-lead">Two ways to mark where a tree goes:</p>
+    <ul>
+      <li><strong>Placeholder</strong> — a one-off token, <code class="inline">[[files]]</code>,
+        optionally with attributes. On first run it expands into a managed block.</li>
+      <li><strong>Marker block</strong> — a
+        <code class="inline">&lt;!-- filetree:start … --&gt;</code> /
+        <code class="inline">&lt;!-- filetree:end --&gt;</code> pair. Everything between
+        is regenerated every run; the start line's attributes are preserved.</li>
+    </ul>
+    <p>Attributes live on the marker, so one file can render many directories:</p>
+<pre>[[files dir="server" style="ascii"]]
+[[files dir="web/src" style="svg" color="green"]]
+[[files dir="deploy" style="collapsible" max-depth="2"]]</pre>
+    <div class="callout">
+      <strong>Fence-safe.</strong> Markers and <code class="inline">[[…]]</code> tokens inside
+      fenced code blocks or <code class="inline">`inline code`</code> are left untouched — so you
+      can document the syntax in the very same file it edits.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STYLES (live) ===================== -->
+<section id="styles">
+  <div class="wrap">
+    <div class="eyebrow">Three styles</div>
+    <h2>Styles</h2>
+    <p class="section-lead">All rendered live from
+      <code class="inline">examples/brand</code> by treegen.</p>
+
+    <div class="variant">
+      <div class="head"><span class="name">ascii</span>
+        <span class="desc">fenced block · aligned <code class="inline">#</code> notes</span></div>
+      <div class="body">
+<!-- filetree:start dir="examples/brand" descriptions="examples/brand/.filetree.json" dirs-only="true" -->
+<pre class="filetree-ascii"><span class="ft-branch">├── </span><span class="ft-dir">brand-identity</span><span class="ft-slash">/</span>      <span class="ft-comment"># Core visual brand elements</span>
+<span class="ft-branch">│   ├── </span><span class="ft-dir">banners</span><span class="ft-slash">/</span>         <span class="ft-comment"># Social media headers and banners</span>
+<span class="ft-branch">│   ├── </span><span class="ft-dir">guidelines</span><span class="ft-slash">/</span>      <span class="ft-comment"># Style guides, color codes, and usage manuals</span>
+<span class="ft-branch">│   ├── </span><span class="ft-dir">logos</span><span class="ft-slash">/</span>           <span class="ft-comment"># Official logos and icons (SVG, PNG)</span>
+<span class="ft-branch">│   └── </span><span class="ft-dir">typography</span><span class="ft-slash">/</span>      <span class="ft-comment"># Official brand fonts</span>
+<span class="ft-branch">├── </span><span class="ft-dir">design-resources</span><span class="ft-slash">/</span>    <span class="ft-comment"># UI kits, components, and design source files (Figma, etc.)</span>
+<span class="ft-branch">└── </span><span class="ft-dir">media-center</span><span class="ft-slash">/</span>        <span class="ft-comment"># Public relations and media archive</span>
+<span class="ft-branch">    ├── </span><span class="ft-dir">clippings</span><span class="ft-slash">/</span>       <span class="ft-comment"># External news coverage, video clips, and press mentions</span>
+<span class="ft-branch">    ├── </span><span class="ft-dir">press-kit</span><span class="ft-slash">/</span>       <span class="ft-comment"># Corporate backgrounder, management bios, and fact sheets</span>
+<span class="ft-branch">    └── </span><span class="ft-dir">press-releases</span><span class="ft-slash">/</span>  <span class="ft-comment"># Historical archive of official press releases</span></pre>
+<!-- filetree:end -->
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="head"><span class="name">collapsible</span>
+        <span class="desc">native <code class="inline">&lt;details&gt;</code></span></div>
+      <div class="body">
+        <div class="tree-details">
+<!-- filetree:start dir="examples/brand" descriptions="examples/brand/.filetree.json" exclude=".filetree.json" dirs-only="true" style="collapsible" -->
+<details open>
+<summary><span class="ft-name">📁 <strong>brand-identity</strong></span> <em class="ft-note">Core visual brand elements</em></summary>
+  <details open>
+  <summary><span class="ft-name">📁 <strong>banners</strong></span> <em class="ft-note">Social media headers and banners</em></summary>
+  </details>
+  <details open>
+  <summary><span class="ft-name">📁 <strong>guidelines</strong></span> <em class="ft-note">Style guides, color codes, and usage manuals</em></summary>
+  </details>
+  <details open>
+  <summary><span class="ft-name">📁 <strong>logos</strong></span> <em class="ft-note">Official logos and icons (SVG, PNG)</em></summary>
+  </details>
+  <details open>
+  <summary><span class="ft-name">📁 <strong>typography</strong></span> <em class="ft-note">Official brand fonts</em></summary>
+  </details>
+</details>
+<details open>
+<summary><span class="ft-name">📁 <strong>design-resources</strong></span> <em class="ft-note">UI kits, components, and design source files (Figma, etc.)</em></summary>
+</details>
+<details open>
+<summary><span class="ft-name">📁 <strong>media-center</strong></span> <em class="ft-note">Public relations and media archive</em></summary>
+  <details open>
+  <summary><span class="ft-name">📁 <strong>clippings</strong></span> <em class="ft-note">External news coverage, video clips, and press mentions</em></summary>
+  </details>
+  <details open>
+  <summary><span class="ft-name">📁 <strong>press-kit</strong></span> <em class="ft-note">Corporate backgrounder, management bios, and fact sheets</em></summary>
+  </details>
+  <details open>
+  <summary><span class="ft-name">📁 <strong>press-releases</strong></span> <em class="ft-note">Historical archive of official press releases</em></summary>
+  </details>
+</details>
+<!-- filetree:end -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== COLOURS (live) ===================== -->
+<section id="colors">
+  <div class="wrap">
+    <div class="eyebrow">SVG</div>
+    <h2>Folder colours</h2>
+    <p class="section-lead">
+      The <code class="inline">svg</code> style takes a <code class="inline">color</code>,
+      macOS-label style. The default <code class="inline">github</code> matches GitHub's own
+      folder colour (Primer blue) and is theme-aware. Each ships a light <em>and</em> dark variant.
+    </p>
+    <div class="swatches" style="margin-bottom:22px">
+      <div class="swatch"><span class="dot" style="background:#54aeff"></span> github <span class="tag">default</span></div>
+      <div class="swatch"><span class="dot" style="background:#54aeff"></span> blue</div>
+      <div class="swatch"><span class="dot" style="background:#4ac26b"></span> green</div>
+      <div class="swatch"><span class="dot" style="background:#ff8182"></span> red</div>
+      <div class="swatch"><span class="dot" style="background:#fd9843"></span> orange</div>
+      <div class="swatch"><span class="dot" style="background:#eac54f"></span> yellow</div>
+      <div class="swatch"><span class="dot" style="background:#c297ff"></span> purple</div>
+      <div class="swatch"><span class="dot" style="background:#ff9bce"></span> pink</div>
+      <div class="swatch"><span class="dot" style="background:#afb8c1"></span> gray</div>
+    </div>
+<pre>&lt;!-- filetree:start dir="src" style="svg" color="purple" --&gt;
+&lt;!-- filetree:end --&gt;</pre>
+    <div class="variant" style="margin-top:18px">
+      <div class="head"><span class="name">color="purple"</span>
+        <span class="desc">live example</span></div>
+      <div class="body">
+<!-- filetree:start dir="examples/brand" descriptions="examples/brand/.filetree.json" dirs-only="true" style="svg" color="purple" background="transparent" svg-output="assets/docs-tree.svg" title="Purple tree" -->
+<img class="filetree-svg" src="assets/docs-tree.svg" alt="Purple tree" />
+<!-- filetree:end -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== OPTIONS ===================== -->
+<section id="options">
+  <div class="wrap">
+    <div class="eyebrow">Reference</div>
+    <h2>Per-marker attributes</h2>
+    <p class="section-lead">Any marker overrides the workflow defaults inline.</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Attribute</th><th>Example</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>dir</code></td><td><code>dir="src"</code></td><td>Directory to scan (repo-root relative).</td></tr>
+          <tr><td><code>style</code></td><td><code>style="svg"</code></td><td><code>ascii</code>, <code>svg</code>, or <code>collapsible</code>.</td></tr>
+          <tr><td><code>color</code></td><td><code>color="green"</code></td><td>SVG folder colour (see palette above).</td></tr>
+          <tr><td><code>max-depth</code></td><td><code>max-depth="2"</code></td><td>Limit depth (<code>0</code> = unlimited).</td></tr>
+          <tr><td><code>dirs-only</code></td><td><code>dirs-only="true"</code></td><td>Directories only, hide files.</td></tr>
+          <tr><td><code>exclude</code></td><td><code>exclude="dist,*.tmp"</code></td><td>Extra ignore patterns (<code>.gitignore</code> syntax).</td></tr>
+          <tr><td><code>use-gitignore</code></td><td><code>use-gitignore="false"</code></td><td>Respect the repo's root <code>.gitignore</code>.</td></tr>
+          <tr><td><code>show-root</code></td><td><code>show-root="true"</code></td><td>Include the scanned directory itself.</td></tr>
+          <tr><td><code>descriptions</code></td><td><code>desc="tree.json"</code></td><td>JSON of <code>path → comment</code> notes.</td></tr>
+          <tr><td><code>svg-output</code></td><td><code>svg="docs/t.svg"</code></td><td>Where the SVG file is written.</td></tr>
+          <tr><td><code>collapse</code></td><td><code>collapse="true"</code></td><td>Wrap the block in one top-level <code>&lt;details&gt;</code>.</td></tr>
+          <tr><td><code>open</code></td><td><code>open="false"</code></td><td>Render collapsibles closed.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Action inputs</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Input</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>readme</code></td><td><code>README.md</code></td><td>File(s) to update. Comma/newline separated, globs.</td></tr>
+          <tr><td><code>style</code></td><td><code>ascii</code></td><td>Default style.</td></tr>
+          <tr><td><code>color</code></td><td><code>github</code></td><td>Default SVG folder colour.</td></tr>
+          <tr><td><code>format</code></td><td><code>auto</code></td><td><code>auto</code> | <code>markdown</code> | <code>html</code>.</td></tr>
+          <tr><td><code>expand-placeholders</code></td><td><code>true</code></td><td>Set <code>false</code> for HTML pages documenting <code>[[…]]</code>.</td></tr>
+          <tr><td><code>check</code></td><td><code>false</code></td><td>Fail if out of date; never writes.</td></tr>
+          <tr><td><code>commit</code></td><td><code>true</code></td><td>Commit &amp; push the changes.</td></tr>
+          <tr><td><code>python-version</code></td><td><code>3.11</code></td><td>Python used to run the tool.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px" class="section-lead">Output: <code class="inline">changed</code> — <code class="inline">'true'</code> if anything was updated.</p>
+  </div>
+</section>
+
+<!-- ===================== HTML MODE ===================== -->
+<section id="html">
+  <div class="wrap">
+    <div class="eyebrow">Beyond Markdown</div>
+    <h2>HTML output</h2>
+    <p class="section-lead">
+      On <code class="inline">.html</code> files (or with <code class="inline">format: html</code>) the same
+      markers emit styled HTML — a <code class="inline">&lt;pre&gt;</code>, an
+      <code class="inline">&lt;img&gt;</code>, or a <code class="inline">&lt;details&gt;</code> tree. This very
+      page is built that way.
+    </p>
+<pre>python -m treegen --readme index.html --format html --no-placeholder</pre>
+    <ul>
+      <li><code class="inline">--format html</code> (or <code class="inline">auto</code>) emits HTML.</li>
+      <li><code class="inline">--no-placeholder</code> regenerates only explicit markers, leaving literal
+        <code class="inline">[[files]]</code> docs alone.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== CI / PAGES / MARKETPLACE ===================== -->
+<section id="ship">
+  <div class="wrap">
+    <div class="eyebrow">Ship it</div>
+    <h2>CI, Pages &amp; Marketplace</h2>
+
+    <h3>Keep PRs honest</h3>
+    <p>Fail a pull request when the README is stale instead of committing:</p>
+<pre>- uses: lucianofedericopereira/treegen@v1
+  with:
+    check: "true"
+    commit: "false"</pre>
+
+    <h3>GitHub Pages</h3>
+    <p>Ship <code class="inline">index.html</code> + <code class="inline">.nojekyll</code>, then
+      <em>Settings → Pages → Deploy from a branch → <code class="inline">main</code> / <code class="inline">/ (root)</code></em>.</p>
+
+    <h3>Marketplace</h3>
+    <p>Push public, create a release tagged <code class="inline">v1.0.0</code>, tick
+      “Publish this Action to the Marketplace”, then float a <code class="inline">v1</code> tag:</p>
+<pre>git tag -fa v1 -m "treegen v1" &amp;&amp; git push origin v1 --force</pre>
+  </div>
+</section>
+
+<!-- ===================== LOCAL ===================== -->
+<section id="cli">
+  <div class="wrap">
+    <div class="eyebrow">Local</div>
+    <h2>Command line</h2>
+    <p class="section-lead">Standard library only — nothing to install.</p>
+<pre>python -m treegen --readme README.md --style svg --color green --dir src
+python -m treegen --readme README.md --check      # preview, don't write</pre>
+    <p>Run <code class="inline">python -m treegen --help</code> for every flag.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>
+      <a href="index.html">Home</a> ·
+      <a href="https://github.com/lucianofedericopereira/treegen">GitHub</a> ·
+      <a href="https://github.com/lucianofedericopereira/treegen/blob/main/LICENSE">MIT License</a>
+    </p>
+    <p class="muted">🌳 treegen · by <a href="https://github.com/lucianofedericopereira">Luciano Federico Pereira</a> · MIT</p>
+  </div>
+</footer>
+
+</body>
+</html>
